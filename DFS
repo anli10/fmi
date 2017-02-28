@@ -1,0 +1,50 @@
+#include <stdio.h>
+ 
+int n, m, viz[100005], cnt;
+ 
+typedef struct nod
+{
+    int x;
+    nod *a;
+} *pNod;
+pNod v[100005];
+ 
+void add(pNod &dest, int val)
+{
+    pNod p;
+    p = new nod;
+    p -> x = val;
+    p -> a = dest;
+    dest = p;
+}
+ 
+void citire()
+{
+    freopen("dfs.in","r",stdin);
+    freopen("dfs.out","w",stdout);
+    scanf("%d %d",&n,&m);
+    int i, x, y;
+ 
+    for (i = 1; i <= m; i++)
+    {
+        scanf("%d %d",&x,&y);
+        add(v[x], y);
+        add(v[y], x);
+    }
+}
+ 
+void DFS(int nod)
+{
+    pNod p;
+    viz[nod] = 1;
+    for (p = v[nod]; p != NULL; p = p -> a) if (!viz[p -> x]) DFS(p -> x);
+}   
+ 
+int main()
+{
+    citire();
+    int i;
+    for (i = 1; i <= n; i++) if (!viz[i]) { cnt++; DFS(i);}
+    printf("%d\n",cnt);
+    return 0;
+}
