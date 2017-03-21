@@ -109,17 +109,19 @@ int main(int argc, const char ** argv) {
 			for(j=0;j<=10000;j++)
 				t[i][j]=-1;
 		while (file.eof() == 0) {
+			
 			int st1,st2,c;
 			char y;
 			file>>st1>>y>>st2;
 			c=(int)y-65;
 			t[st1][c]=st2;
+			
 		}
 		int stare = 0;
 		int i,ok=1;
 		char simbol;
 		for (i=0; i < w.size(); ++i) {
-			
+
 			simbol = (int)w[i]-65;
 			if (t[stare][simbol]!=-1)
 				stare=t[stare][simbol];
