@@ -1,0 +1,44 @@
+*The awesome and contest winning Freya project*
+
+<title> Automatic greenhouse </title>
+
+The project consists in a fully automatic/ed greenhouse meant to grow 'plants' faster and optimize energy consumption
+
+The project will be able to:
+
+	*monitorize environmental parameters such as
+		-soil humidity
+		-temperature
+		-lighting
+		Bonus: rain sensor
+
+	*gather data and regularily graph it
+
+	*regulate the environment parameters:
+		-water the plant
+		-heat the greenhouse interior
+		-ventilation
+		-periodically adjust inner humidity
+
+	*fill the water tank everytime it rains (raindrops sensor used)
+
+
+Preliminary requirements:
+	-one servomotor
+	-2 stepper motors
+	-miniature water pump
+	-2 relay module 
+	-temperatiure sensor (DS18B20) OK
+	-heating resistor OK
+	-soil humidity sensor OK
+	-water level sensor OK
+	-raindrops sensor OK
+	-fan OK
+	
+
+
+BONUS: - the greenhouse will be able to work with voice commands
+	- the greenhouse will be able to conver/uncover itself
+	- materials: acrilic glass
+
+FAR BONUS: -web interface with all the controls + graph display (MOST IMPORTANT)
