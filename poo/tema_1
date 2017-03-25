@@ -1,0 +1,158 @@
+/*
+. Polinoame reprezentate ca tablouri unidimensionale (prin gradul polinomului si vectorul coeficientilor, de dimensiune egala cu gradul plus 1, de la cel al termenului liber la cel de grad maxim)
+- valoarea unui polinom intr-un punct;
+- suma a doua polinoame;
+- diferenta a doua polinoame;
+- produsul a doua polinoame.
+
+*/
+
+#include<iostream>
+#include<stdlib.h>
+#include <math.h>
+using namespace std;
+
+class polinom {
+    int *v, grad;
+public:
+    int citire();
+    int afisare(int *v, int grad);
+    void adaugare(polinom P1, polinom P2);
+    void scadere(polinom P1, polinom P2);
+    void produs(polinom P1, polinom P2);
+    int val(int x,polinom P1);
+};
+
+int polinom::afisare(int *v, int grad) {
+    int i;
+    for (i = 0; i <= grad; i++) {
+        if(v[i]!=0){
+        cout << v[i] << "x^" << i;
+        if (i != grad)
+            cout << "+";}
+    }
+    cout << "\n";
+    return 0;
+}
+
+int polinom::citire() {
+    int i;
+    cout << "Gradul polinomului:";
+    cin >> grad;
+    v = new int[grad + 1];
+    for (i = 0; i <= grad; i++) {
+        cout << "coeficientul lui x^" << i << ":";
+        cin >> v[i];
+    }
+    
+    return 0;
+}
+
+void polinom::adaugare(polinom P1, polinom P2) {
+    int max, i;
+    max = (P1.grad > P2.grad) ? P1.grad : P2.grad;
+    int *suma = new int[max + 1];
+    if (P1.grad == P2.grad) {
+        for (i = 0; i <= 0; i++)
+            suma[i] = P1.v[i] + P2.v[i];
+    }
+    
+    if (P1.grad > P2.grad) {
+        for (i = P1.grad; i > P2.grad; i--)
+            suma[i] = P1.v[i];
+        for (i = P2.grad; i >= 0; i--)
+            suma[i] = P1.v[i] + P2.v[i];
+    }
+    
+    if (P1.grad < P2.grad) {
+        for (i = P2.grad; i > P1.grad; i--)
+            suma[i] = P2.v[i];
+        for (i = P1.grad; i >= 0; i--)
+            suma[i] = P1.v[i] + P2.v[i];
+    }
+    cout << "\nSuma:";
+    afisare(suma, max);
+    cout << "\n";
+}
+
+void polinom::scadere(polinom P1, polinom P2) {
+    int max, i;
+    max = (P1.grad > P2.grad) ? P1.grad : P2.grad;
+    int *dif = new int[max + 1];
+    if (P1.grad == P2.grad) {
+        for (i = P1.grad; i >= 0; i--)
+            dif[i] = P1.v[i] - P2.v[i];
+    }
+    
+    if (P1.grad > P2.grad) {
+        for (i = P1.grad; i > P2.grad; i--)
+            dif[i] = P1.v[i];
+        for (i = P2.grad; i >= 0; i--)
+            dif[i] = P1.v[i] - P2.v[i];
+    }
+    
+    if (P1.grad < P2.grad) {
+        for (i = P2.grad; i > P1.grad; i--)
+            dif[i] = -P2.v[i];
+        for (i = P1.grad; i >= 0; i--)
+            dif[i] = P1.v[i] - P2.v[i];
+    }
+    cout << "\nDiferenta:";
+    afisare(dif, max);
+    cout << "\n";
+}
+
+void polinom::produs(polinom P1, polinom P2) {
+    int i, j, max;
+    max = P1.grad + P2.grad;
+    int *prod = new int[max + 1];
+    
+    for (i = P1.grad; i >= 0; i--)
+        for (j = P2.grad; j >= 0; j--)
+            prod[i + j] += P1.v[i] * P2.v[j];
+    cout << "\nprodus::";
+    afisare(prod, max);
+}
+int polinom::val(int x,polinom P1){
+    int i,suma=0;
+    for(i=0;i<= P1.grad ;i++)
+        suma=suma+(P1.v[i]*pow(x,i));
+    return suma;
+}
+int main() {
+    int alegere,x;
+    polinom P1, P2, P3;
+    cout << "Polinom 1:" << endl;
+    P1.citire();
+    cout << "Polinom 2:" << endl;
+    P2.citire();
+    
+    while (1) {
+        cout << "1: Adaugare\n2: scadere\n3: inmultire\n0: Exit\n4: valoarea intr-un punct\n" << endl;
+        cout << "scrie numarul:";
+        cin >> alegere;
+        switch (alegere) {
+                
+            case 1:
+                P3.adaugare(P1, P2);
+                break;
+                
+            case 2:
+                P3.scadere(P1, P2);
+                break;
+                
+            case 3:
+                P3.produs(P1, P2);
+               
+                break;
+            case 4:
+                cout<<"\nX=";cin>>x;cout<<endl;
+                cout<<"val polinomului este:"<<P3.val(x,P1);
+                
+                break;
+            case 0:
+                exit(0);
+        }
+    }
+    return 0;
+}
