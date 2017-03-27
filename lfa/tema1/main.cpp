@@ -69,16 +69,18 @@ int main(int argc, const char ** argv) {
 			//daca descoperim cel putin o muchie intre doua noduri o marcam, putem ajunge intr-un nod din mai multe alte noduri (numarul lor este memorat pe coloana 0 a matricii) memorate in matrice liniar.
 			if(drum[st1][st2]!=1){
 				drum[st1][st2]=1;
-				vecini[st1].push_back(st2);
-				noduri[st2].push_back(st1);
+				vecini[st1].push_back(st2);//vector in care retinem vecinii in care se ajunge intr-un nod
+				noduri[st2].push_back(st1);//vector in care retinem vecinii din care se ajunge intr-un nod
 			}
 		}
 		int k=0;
 		//parcurgem automatul pornind de la starile finale
+		
+		//marcam nodurile finale
 		for(i=(n-nf);i<n;++i){
 			parcurgere[k]=i;
 			k++;
-			nod_bun[i]=1;
+			nod_bun[i]=1;//nodurile din care putem ajunge in stari finale
 		}
 		//cat timp mai avem noduri din care sa plecam
 		while(k!=0){
@@ -91,13 +93,15 @@ int main(int argc, const char ** argv) {
 			
 			if(noduri[inceput].size()!=0)
 				for(i = 0 ; i < noduri[inceput].size(); ++i)
+					//daca inca nu am marcat nodul ca fiind un nod din care se poate ajunge in stare finala
 					if(nod_bun[noduri[inceput][i]]==0){
 						nod_bun[noduri[inceput][i]]=1;
 						parcurgere[k]=noduri[inceput][i];
 						k++;
 					}
 		}
-		for (i=1; i<10000; i++)
+		//initianlizare vector pentru dfs
+		for (i=1; i<=10000; i++)
 			vizitat[i]=0;
 		vizitat[0]=1;
 		cout<<(1-DFS(0));
