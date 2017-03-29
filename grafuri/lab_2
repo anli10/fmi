@@ -1,0 +1,71 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+using namespace std;
+
+ifstream f ("/Users/ghiutaana/Desktop/grafuri_lab2/grafuri_lab2/grafuri.in");//grafuri.in
+ofstream g ("/Users/ghiutaana/Desktop/grafuri_lab2/grafuri.out");//grafuri.out
+
+int n, m, a[1000][1000], critic[1000], vizitat[1000], nivel[1000], ciclu[1000], parinte[1000], fii[1000];
+
+void dfs (int i)
+{
+    int j;
+    vizitat[i]=1;
+    ciclu[i]=nivel[i];
+    for (j=1; j<=n; j++)
+    {
+        if (a[i][j]==1)
+        {
+            if (vizitat[j]==0)
+            {
+                nivel[j]=nivel[i]+1;
+                parinte[j]=i;
+                fii[parinte[j]]++;
+                dfs (j);
+                ciclu[i]=min(min (nivel[i],ciclu[i]), ciclu[j]);
+                
+                //Muchie critica:
+                if (ciclu[j]>nivel[i])
+                    g << i << " " << j << "\n";
+                
+                //Punct vulnerabil:
+                if (ciclu[j]>=nivel[i] && parinte[i]!=0)
+                    critic[i]=1;
+                if (parinte[i]==0 && fii[i]>=2)
+                    critic[i]=1;
+            }
+            else
+                if (nivel[j]<nivel[i]-1 && nivel[j]<ciclu[i])
+                    ciclu[i]=min(min(nivel[i],ciclu[i]), nivel[j]);
+        }
+    }
+}
+
+void puncte_vulnerabile ()
+{
+    int i;
+    for (i=0; i<n; i++)
+        if (critic[i]==1)
+            g << i << ",";
+}
+
+int main ()
+{
+    int x, y, i;
+    f >> n >> m;
+    
+    for (i=0; i<m; i++)
+    {
+        f >> x >> y;
+        a[x][y]=a[y][x]=1;
+    }
+    i=1;
+    nivel[i]=1;
+    g << "muchii:";
+    dfs (i);
+    
+    g << "\npuncte: ";
+    puncte_vulnerabile ();
+    return 0;
+}
