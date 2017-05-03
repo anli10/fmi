@@ -1,0 +1,227 @@
+#include <iostream>
+#include <fstream>
+#include <math.h>
+#include <stdlib.h>
+
+using namespace std;
+
+class polinom
+{
+    friend class pereche;
+    int grad;
+    double *V;
+    
+public:
+    
+    polinom()
+    {
+        grad=0;
+        V=NULL;
+    };
+    
+    void setPolinom(int c)
+    {
+        grad=c;
+        V=new double[grad];
+    }
+    double calcul(double);
+    polinom operator+(const polinom);
+    polinom operator-(const polinom);
+    polinom operator*(const polinom);
+    friend istream &operator >> (istream &, polinom&);
+    friend ostream &operator << (ostream &, polinom&);
+};
+
+class pereche
+{
+    double radacina;
+    polinom P;
+public:
+    friend istream &operator >> (istream &, pereche&);
+    friend ostream &operator << (ostream &, pereche&);
+    bool verificare();
+};
+
+
+double polinom::calcul(double x)
+{
+    double s=V[0];
+    for (int i=1;i<=grad;++i)
+    {
+        s=s+pow(x,i)*V[i];
+    }
+    return s;
+}
+
+polinom polinom::operator+(const polinom P2)
+{
+    
+    int ExpMax = 0,ExpMin=0,k=0;
+    if (grad < P2.grad)
+    {
+        ExpMax = P2.grad;
+        ExpMin = grad;
+        k=1;
+    }
+    else if (grad >= P2.grad)
+    {
+        ExpMax = grad;
+        ExpMin = P2.grad;
+    }
+    
+    polinom P3;
+    P3.setPolinom(ExpMax);
+    
+    
+    for (int i=0; i <= ExpMin; i++)
+        P3.V[i]=V[i]+P2.V[i];
+    if (k==1)
+        for (int i=ExpMin+1; i <= ExpMax; i++)
+            P3.V[i]=P2.V[i];
+    else
+        for (int i=ExpMin+1; i <= ExpMax; i++)
+            P3.V[i]=V[i];
+    
+    return P3;
+}
+
+
+
+polinom polinom::operator-(const polinom P2)
+{
+    
+    int ExpMax = 0,ExpMin=0,k=0;
+    if (grad < P2.grad)
+    {
+        ExpMax = P2.grad;
+        ExpMin = grad;
+        k=1;
+    }
+    else if (grad >= P2.grad)
+    {
+        ExpMax = grad;
+        ExpMin = P2.grad;
+    }
+    
+    polinom P3;
+    P3.setPolinom(ExpMax);
+    
+    for (int i=0; i <= ExpMin; ++i)
+        P3.V[i]=V[i]-P2.V[i];
+    if (k==1)
+        for (int i=ExpMin+1; i <= ExpMax; ++i)
+            P3.V[i]=-P2.V[i];
+    else
+        for (int i=ExpMin+1; i <= ExpMax; ++i)
+            P3.V[i]=-V[i];
+    
+    return P3;
+}
+
+
+polinom polinom::operator*(const polinom P2)
+{
+    
+    int ExpMax = P2.grad+grad;
+    
+    polinom P3;
+    P3.setPolinom(ExpMax);
+    
+    for (int i=0; i <= grad; ++i)
+        for (int j=0; j <=P2.grad; ++j)
+            
+            P3.V[i+j]=P3.V[i+j]+P2.V[j]*V[i];
+    
+    return P3;
+}
+
+
+istream &operator >> (istream & in, polinom & P1)
+{
+    
+    in>>P1.grad;
+    P1.V=new double[P1.grad];
+    for(int i=0;i<=P1.grad;++i)
+    {
+        in>>P1.V[i];
+    }
+    return in;
+}
+istream &operator >> (istream & in, pereche & y)
+{
+    in>>y.radacina;
+    in>>y.P;
+    return in;
+}
+
+ostream &operator << (ostream & out, polinom & P1)
+{
+    out<<P1.grad;
+    out<<"\n";
+    for(int i=P1.grad;i>=0;--i)
+    {
+        out<<P1.V[i]<<" ";
+    }
+    return out;
+}
+
+
+ostream &operator << (ostream & out, pereche & y)
+{
+    out<<y.radacina;
+    out<<"\n";
+    out<<y.P;
+    return out;
+}
+bool pereche::verificare()
+{
+    if (P.calcul(radacina)==0) return true;
+    else return false;
+}
+
+
+
+
+int main()
+{
+    double x;
+    polinom P1,P2,P3;
+    
+    ifstream f("/Users/ghiutaana/Desktop/poo_tema2/poo_tema2/polinom.in");
+    ofstream g("/Users/ghiutaana/Desktop/poo_tema2/poo_tema2/polinom.out");
+    
+    f>>P1;
+    cout<<"\nPolinomul P1 este:\n";
+    cout<<P1;
+    
+    cout<<"\ncitire Polinomul P2 de la tastarura:";
+    cin>>P2;
+    
+    P3=P1+P2;
+    cout<<"\nP1+P2 este:\n\n"<<P3;
+    
+    P3=P2-P1;
+    cout<<"\nP2-P1 este:\n\n"<<P3;
+    cout<<"\n\n";
+    
+    P3=P1*P2;
+    cout<<"\nP1*P2 este:\n\n"<<P3;
+    
+    cout<<"\nIntroduceti valoarea reala x pentru care se calculeaza P2:\n";
+    cin>>x;
+    cout<<"P2["<<x<<"]="<<P2.calcul(x);
+    
+    cout<<"\n";
+    pereche per;
+    cout<<"\nCititi perechea: (val.reala,grad polinom,coeficientii polinomului) \n";
+    cin>>per;
+    cout<<"\nPerechea citita este: \n";
+    cout<<per;
+
+    
+    bool j=per.verificare();
+    if (j==true) cout<<"\n Valoarea reala a perechii este radacina a polinomului\n";
+    else cout<<"\n Valoarea reala a perechii NU este radacina a polinomului\n";
+    
+    return 0;
+}
