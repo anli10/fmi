@@ -31,6 +31,7 @@ public:
     friend istream &operator >> (istream &, polinom&);
     friend ostream &operator << (ostream &, polinom&);
 };
+
 class pereche
 {
     double radacina;
@@ -55,20 +56,33 @@ double polinom::calcul(double x)
 polinom polinom::operator+(const polinom P2)
 {
     
-    int ExpMax = 0,ExpMin=0,k=0;
+    int ExpMax = 0,ExpMin=0,k=0,ok=0;
     if (grad < P2.grad)
     {
         ExpMax = P2.grad;
         ExpMin = grad;
         k=1;
     }
-    else if (grad >= P2.grad)
+    if (grad > P2.grad)
     {
         ExpMax = grad;
         ExpMin = P2.grad;
     }
-    
+    if (grad == P2.grad)
+    {
+        ExpMax = grad;
+        ExpMin = P2.grad;
+        for (int i=0; i <= grad; i++)
+            if(V[i]==(-1)*P2.V[i]) ok++;
+        
+    }
     polinom P3;
+    if (ok==grad+1)
+    {
+        P3.setPolinom(0);
+        P3.V[0]=0;
+        return P3;
+    }
     P3.setPolinom(ExpMax);
     
     
@@ -89,20 +103,33 @@ polinom polinom::operator+(const polinom P2)
 polinom polinom::operator-(const polinom P2)
 {
     
-    int ExpMax = 0,ExpMin=0,k=0;
+    int ExpMax = 0,ExpMin=0,k=0,ok=0;
     if (grad < P2.grad)
     {
         ExpMax = P2.grad;
         ExpMin = grad;
         k=1;
     }
-    else if (grad >= P2.grad)
+    else if (grad > P2.grad)
     {
         ExpMax = grad;
         ExpMin = P2.grad;
     }
-    
+    if (grad == P2.grad)
+    {
+        ExpMax = grad;
+        ExpMin = P2.grad;
+        for (int i=0; i <= grad; i++)
+            if(V[i]==P2.V[i]) ok++;
+        
+    }
     polinom P3;
+    if (ok==grad+1)
+    {
+        P3.setPolinom(0);
+        P3.V[0]=0;
+        return P3;
+    }
     P3.setPolinom(ExpMax);
     
     for (int i=0; i <= ExpMin; ++i)
@@ -122,7 +149,7 @@ polinom polinom::operator*(const polinom P2)
 {
     
     int ExpMax = P2.grad+grad;
-    
+    if(grad==0||P2.grad==0) ExpMax=0;
     polinom P3;
     P3.setPolinom(ExpMax);
     
@@ -186,8 +213,8 @@ int main()
     double x;
     polinom P1,P2,P3;
     
-    ifstream f("/Users/ghiutaana/Desktop/poo_tema2/poo_tema2/polinom.in");
-    ofstream g("/Users/ghiutaana/Desktop/poo_tema2/poo_tema2/polinom.out");
+    ifstream f("/Users/ghiutaana/Desktop/POO/poo_tema2/poo_tema2/polinom.in");
+    ofstream g("/Users/ghiutaana/Desktop/POO/poo_tema2/poo_tema2/polinom.out");
     
     f>>P1;
     cout<<"\nPolinomul P1 este:\n";
