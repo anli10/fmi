@@ -1,0 +1,145 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+vector < vector <pair <char, int> > > NFA(100000),DFA(10001);
+vector < vector <int> > multime_stari;
+vector <char> alfabet;
+vector <bool> adaugat(100000);
+vector <int> multime,stari_finale_dfa,stari_finale;
+
+int numar_stari, nr_stari_finale, simboluri;
+
+vector <int> verificare_stari_ajunge ( vector <int> stari, char litera)
+{
+    
+    int i, j;
+    vector <int> stari_ajunge_simbol;
+
+    for (i=0; i<stari.size(); i++)
+    {
+        for (j=0; j<NFA[stari[i]].size(); j++)
+            if (NFA[stari[i]][j].first==litera && adaugat[NFA[stari[i]][j].second]==0)
+            {
+                adaugat[NFA[stari[i]][j].second]=1;
+                stari_ajunge_simbol.push_back (NFA[stari[i]][j].second);
+            }
+    }
+    
+    return stari_ajunge_simbol;
+}
+
+int adaugat_alfabet(char simbol)
+{
+    int i;
+    bool ok=0;
+    for (i=0; i<alfabet.size(); i++)
+        if (alfabet[i]==simbol)
+            ok=1;
+    return ok;
+}
+void transformare_dfa(int i,int j)
+{
+    int k,ok=0;
+    for (k=0; k<multime_stari.size(); k++)
+        if (multime_stari[k]==multime)
+        {
+            ok=1;
+            DFA[i].push_back (make_pair (alfabet[j], k));
+        }
+    
+    if (ok==0)
+    {
+        DFA[i].push_back (make_pair (alfabet[j], multime_stari.size()));
+        multime_stari.push_back (multime);
+    }
+
+}
+void initializare_stari_finale()
+{
+    int i,j,k,t=0,vector_stari_finale_dfa[10000];
+    for (i=0; i<multime_stari.size(); i++)
+    {
+        for (j=0; j<multime_stari[i].size(); j++)
+            for (k=0; k<stari_finale.size(); k++)
+                if (multime_stari[i][j]==stari_finale[k])
+                {
+                    vector_stari_finale_dfa[t]=i;
+                    t++;
+                }
+    }
+    for (i=0; i<t; i++)
+        if(vector_stari_finale_dfa[i]==vector_stari_finale_dfa[i+1])
+            i++;
+        else stari_finale_dfa.push_back(vector_stari_finale_dfa[i]);
+    
+}
+void afisare()
+{
+    int i,j;
+    
+    cout << multime_stari.size () <<' '<< stari_finale_dfa.size () <<' '<< alfabet.size () << endl;
+    
+    for (i=0; i<stari_finale_dfa.size (); i++)
+        cout << stari_finale_dfa[i] <<' ';
+    
+    cout << endl;
+    
+    for (i=0; i<multime_stari.size(); i++)
+    {
+        for (j=0; j<DFA[i].size(); j++)
+            cout << i <<' '<< DFA[i][j].first <<' '<< DFA[i][j].second <<endl;
+    }
+}
+
+
+int main ()
+{
+    
+    ifstream f("/Users/ghiutaana/Downloads/teste_publice 2/t00.in");
+    int x, i,j,t,stare_in,stare_urm;
+    char simbol;
+    
+    f >> numar_stari >> nr_stari_finale >>simboluri;
+    
+    for (i=0; i<nr_stari_finale; i++)
+    {
+        f >> x;
+        stari_finale.push_back (x);
+    }
+    
+    while (f >> stare_in >> simbol >> stare_urm)
+    {
+        
+        
+        if (adaugat_alfabet(simbol)==0)
+            alfabet.push_back (simbol);
+
+        NFA[stare_in].push_back (make_pair (simbol, stare_urm));
+        
+    }
+    
+    multime.push_back (0);
+    multime_stari.push_back (multime);
+    
+    for (i=0; i<multime_stari.size(); i++)
+    {
+        for (j=0; j<alfabet.size(); j++)
+        {
+            
+            for (t=0; t<100000; t++)
+                adaugat[t]=0;
+            
+            multime= verificare_stari_ajunge (multime_stari[i], alfabet[j]);
+            
+            if (multime.size()!=0)
+                transformare_dfa(i,j);
+            
+        }
+    }
+    initializare_stari_finale();
+
+    afisare();
+    return 0;
+}
