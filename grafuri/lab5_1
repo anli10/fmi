@@ -1,0 +1,67 @@
+
+#include <iostream>
+#include <fstream>
+#include <queue>
+using namespace std;
+ifstream f("/Users/ghiutaana/Desktop/GRAFURI/lab5_1(bipart)/lab5_1(bipart)/grafpond.in");
+int l[100][100], n,m;
+int p[50];
+//l[i][0]=gradul varfului i
+void citire(){
+    int i,j,x,y,g;
+    f>>n>>m;
+    for(i=1;i<=m;i++){
+        f>>x>>y;
+        /*l[x][0]=gradul lui x=la
+         al catelea vecin am ajuns*/
+        l[x][0]++;
+        l[x][l[x][0]]=y;
+        //neorientat
+        l[y][0]++;
+        l[y][l[y][0]]=x;
+    }
+    for(i=1;i<=n;i++){
+        cout<<i<<": ";
+        g=l[i][0];
+        for(j=1;j<=g;j++)
+            cout<<l[i][j]<<" ";
+        cout<<endl;}
+}
+int bipartit(int s)
+{
+    int st,dr,i,x[50],j;
+    st=dr=1;
+    x[1]=s;
+    while(st<=dr)
+    {
+        for(i=1; i<l[x[st]][0]; i++)
+        {
+            j=l[x[st]][i];
+            if(p[j]==p[x[st]]) return 0;
+            if(!p[j])
+            {
+                dr++;
+                x[dr]=j;
+                if(p[x[st]]==1) p[j]=2;
+                else p[j]=1;
+            }
+        }
+        st++;
+    }
+    return 1;
+}
+
+int main()
+{
+    citire();
+    p[1]=1;
+    if(!bipartit(1)) cout<<"nu";
+    else
+    { cout<<"da\n";
+        for(int i=1;i<=n;i++) if(p[i]==1) cout<<i<<" ";
+        cout<<endl;
+        for(int i=1;i<=n;i++) if(p[i]==2) cout<<i<<" ";
+    }
+
+    return 0;
+}
