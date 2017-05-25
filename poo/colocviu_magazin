@@ -1,0 +1,193 @@
+//
+//  main.cpp
+//  colocviu_iar2
+//
+//  Created by Ghiuta Ana on 25.05.2017.
+//  Copyright © 2017 Ghiuta Ana. All rights reserved.
+//
+
+#include <iostream>
+#include <string>
+#include <vector>
+class produs;
+class lot;
+using namespace std;
+vector<lot*>vl;
+vector<produs*>vp;
+class produs{
+    string denumire;
+    string masura;
+public:
+    produs(){}
+    produs(string d,string u){
+        denumire=d;
+        masura=u;
+    }
+    friend ostream& operator <<(ostream& os,produs *p){
+        os<<p->denumire<<','<<p->masura;
+        return os;
+    }
+    string get_denumire(){
+        return denumire;
+    }
+    string get_unitate(){
+        return masura;
+    }
+    void set_prod(string d,string u){
+        denumire=d;
+        masura=u;
+    }
+};
+class produsperis: public virtual produs{
+    int valabilitate;
+public:
+    produsperis(){}
+    produsperis(int v){valabilitate=v;}
+    produsperis(string d,string u,int v):produs(d,u){
+        valabilitate=v;
+    }
+    int get_valabilitate(){
+        return valabilitate;
+    }
+};
+class produsdisc: public virtual produs{
+    int discount;
+public:
+    produsdisc(){}
+    produsdisc(int dis){discount=dis;}
+    produsdisc(string d,string u,int dis):produs(d,u){
+        discount=dis;
+    }
+};
+class produsperisdisc: public produsdisc,public produsperis{
+public:
+    produsperisdisc(){}
+    produsperisdisc(string d,string u,int dis,int v):produs(d,u),produsperis(v),produsdisc(dis){    }
+
+};
+class lot{
+    produs prod;
+    int cantitate;
+    int pret;
+    produsperis prodper;
+    produsdisc proddisc;
+    produsperisdisc prodperdisc;
+public:
+    int zi,luna,an;
+    long data;
+    lot(int z,int l,int a,produs p,int c,int pr){
+        zi=z;luna=l;an=a;
+        prod=p;
+        pret=pr;
+        cantitate=c;
+        data=a*100+l*100+z;
+    }
+    lot(int z,int l,int a,produsperis p,int c,int pr){
+        zi=z;luna=l;an=a;
+        prodper=p;
+        pret=pr;
+        cantitate=c;
+        data=a*100+l*100+z;
+    }
+    lot(int z,int l,int a,produsdisc p,int c,int pr){
+        zi=z;luna=l;an=a;
+        proddisc=p;
+        pret=pr;
+        cantitate=c;
+        data=a*100+l*100+z;
+    }
+    lot(int z,int l,int a,produsperisdisc p,int c,int pr){
+        zi=z;luna=l;an=a;
+        proddisc=p;
+        pret=pr;
+        cantitate=c;
+        data=a*100+l*100+z;
+    }
+    friend ostream& operator <<(ostream& os,lot *p){
+        os<<&p->prod<<&p->prodperdisc<<&p->proddisc<<&p->prodper<<" greutate: "<<p->cantitate<<" pret "<<p->pret;
+        return os;
+    }
+    int get_canitate(){
+        return cantitate;
+    }
+    produsperis get_produs(){
+        return prodper;
+    }
+};
+int main() {
+    int x=-1;
+    while(x!=0){
+        cout<<"1:adaugare produs\n2:afisare produse\n3:adaugare lot\n4:toate loturile intre doua date calendaristice\n5:toate toturile ce se pot comercializa\n6:vanzare\n0:exit\n";
+        cin>>x;
+        if(x==1){
+            string d,u;
+            cout<<"introdu denumirea\n";
+            cin>>d;
+            cout<<"introdu unitatrea de masura\n";
+            cin>>u;
+            produs* p=new produs(d,u);
+            vp.push_back(p);
+        }
+        if(x==2){
+        for(int i=0;i<vp.size();i++)
+            cout<<vp[i]<<endl;
+        }
+        if(x==3){
+            int z,l,a,c,i,pr,v,dis;
+            produs p;
+            string d,u;
+            cout<<"zi,luna,an:";cin>>z>>l>>a;
+            cout<<"\ncanitatea:";cin>>c;
+            cout<<"\npret:";cin>>pr;
+            cout<<"\nnumele produsului:";cin>>d;
+            for(i=0;i<vp.size();i++)
+                if(vp[i]->get_denumire()==d){
+                    u=vp[i]->get_unitate();
+                    break;
+                }
+            cout<<"\nvalabilitate:(0 daca nu expira)";cin>>v;
+            cout<<"\ndiscount:(0 daca nu are)";cin>>dis;
+            if(v&& dis==0){
+                produsperis *p=new produsperis(d,u,v);
+                lot *lo=new lot(z,l,a,*p,c,pr);
+                 vl.push_back(lo);
+            }
+            if(v==0&& dis!=0){
+                produsdisc *p=new produsdisc(d,u,dis);
+                lot *lo=new lot(z,l,a,*p,c,pr);
+                vl.push_back(lo);
+            }
+            if(v&&dis){
+                produsperisdisc *p=new produsperisdisc(d,u,v,dis);
+                lot *lo=new lot(z,l,a,*p,c,pr);
+                vl.push_back(lo);
+            }
+            if(dis==0&&v==0){
+            lot *lo=new lot(z,l,a,*vp[i],c,pr);
+            vl.push_back(lo);
+            }
+        }
+        if(x==4){
+            int z1,l1,a1,z2,l2,a2;
+            cout<<"\nprima data:";cin>>z1>>l1>>a1;
+            long d1,d2;
+            //stiu ca nu este convertire perfecta
+            cout<<"c\na doua data:";cin>>z2>>l2>>a2;
+            d1=a1*100+l1*100+z1;
+            d2=a2*100+l2*100+z2;
+            for(int i=0;i<vl.size();i++)
+                if(vl[i]->data>d1&&vl[i]->data<d2)
+                        cout<<vl[i]<<endl;
+        }
+        //cout<<vl.size();
+        if(x==5){
+            long datacurenta;
+            cout<<"\ncare este data curenta?(an,luna,zi fara spatii)";cin>>datacurenta;
+            for(int i=0;i<vl.size();i++)
+                if((vl[i]->get_produs().get_valabilitate()+vl[i]->data)<=datacurenta && vl[i]->get_canitate()!=0)
+                    cout<<vl[i]<<endl;
+                    
+        }
+    }
+    return 0;
+}
