@@ -1,0 +1,167 @@
+//
+//  main.cpp
+//  colocviu_iar
+//
+//  Created by Ghiuta Ana on 25.05.2017.
+//  Copyright © 2017 Ghiuta Ana. All rights reserved.
+//
+
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Data{
+    int zi,luna,an;
+};
+class produs{
+    //string denprod;
+    float pretprod;
+public:
+    string denprod;
+    produs(){};
+    produs(string d,float p){
+        denprod=d;
+        pretprod=p;
+    }
+    produs(string d){
+        denprod=d;
+    }
+    friend ostream& operator<<(ostream& os,produs p){
+        os<<"("<<p.denprod<<")";
+        // <<","<<p.pretprod<<")";
+        return os;
+    }
+    friend istream& operator>>(istream& in,produs &p){
+        in>>p.denprod;
+        return in;
+        //>>p.pretpros<<")";
+    }
+};
+class comanda{
+    int num;
+    produs prod;
+    int nrportii;
+    int zi;
+    int luna;
+    int an;
+public:
+    comanda(){}
+    comanda(string s,int nr,int z,int l,int a):prod(s){
+        
+        nrportii=nr;
+        zi=z;
+        luna=l;
+        an=a;
+    }
+    comanda(string s,int nr):prod(s){
+        nrportii=nr;
+    }
+    friend ostream& operator<<(ostream& os,comanda c){
+        os<<"("<<c.prod<<","<<c.nrportii<<")";
+        return os;
+    }
+    friend istream& operator>>(istream& in,comanda &c){
+        in>>c.prod>>c.nrportii;
+        return in;
+    }
+
+    comanda operator+(int i){
+        comanda temp;
+        temp.prod=prod;
+        temp.nrportii=nrportii+i;
+        return temp;
+    }
+    comanda operator ++(int){
+        comanda temp;
+        temp.prod=prod;
+        temp.nrportii=nrportii;
+        nrportii++;
+        return temp;
+    }
+    void del(){
+        this->nrportii=0; }
+};
+class ospatar{
+    char nume[30];
+    vector<comanda>comenzi;
+    int nrcomenzi;
+    char gen;
+    int varsta;
+public:
+    ospatar(char o[30],comanda c[],int nr,char g,int v){
+        strcpy(nume,o);
+        //for(int i=0;i<4;i++)
+        //comenzi[i]=c[i];
+        nrcomenzi=nr;
+        gen=g;
+        varsta=v;
+    }
+    friend ostream& operator<<(ostream& os,ospatar o){
+        os<<"("<<o.nume<<","<<&o.comenzi<<","<<o.nrcomenzi<<","<<o.gen<<","<<o.varsta<<")";
+        return os;
+    }
+    int operator >(ospatar o){
+        if(nrcomenzi>o.nrcomenzi) return 1;
+        else return 0;
+    }
+    int operator ==(ospatar o){
+        if(nrcomenzi==o.nrcomenzi) return 1;
+        else return 0;
+    }
+    int operator <(ospatar o){
+        if(nrcomenzi<o.nrcomenzi) return 1;
+        else return 0;
+    }
+    string Nume(){
+        return nume;
+    }
+};
+class comspec:public virtual comanda{
+    char *obsc;
+    float pretsul;
+};
+class comonline:public virtual comanda{
+    char adresa;
+    int comlivr;
+};
+int main() {
+    int i;
+    produs meniu[4]={produs("frigarui",30),produs("cola",7.5),produs("cafea",5)};
+    //for(i=0;i<4;i++)
+    //cout<<meniu[i]<<" ";
+    comanda c1("frigarui",2,30,5,2016),c2("cola",3),c3("cafea",1),c4=c2,c5;
+    //cout<<c1<<" "<<c4<<" "<<c5;
+    c3=c3+4;
+    //cout<<c3;
+    c2++;
+    cout<<c2;
+    c1.del();
+    //cin>>c5;
+    cout<<c5;
+    comanda *com1=new comanda[4],*com2=new comanda[4];
+    com1[0]=c1;
+    com1[1]=c2;
+    com1[2]=c3;
+    com2[0]=c4;
+    com2[1]=c5;
+    ospatar o1("ionescu",com1,3,'M',25),o2("popescu",com2,2,'F',30);
+    cout<<o1<<" "<<o2<<endl;
+    if(o2>o1) cout<<o2.Nume()<<"a servit";
+    else if(o2==o1) cout<<"egal";
+    else cout<<o2.Nume()<<" a servit mai putin ca "<<o1.Nume()<<endl;
+    int x=-1;
+    while (x!=0)
+    {
+        cout<<"1:afisarea tuturor comenzilor preluate pe 31.05.2016\n2:afisarea nr de papanasi si papanasi cu nuca de cocos comandate in luna mai 2016";
+        cout<<"care este optiunea? ";cin>>x;
+        
+    }
+    return 0;
+}
+
+
+
+
+
