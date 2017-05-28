@@ -1,0 +1,125 @@
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+ifstream f("/Users/ghiutaana/Desktop/LFA/minimizare/fisier.in");
+int main() {
+
+    int i,j;
+    int stari = 0; //read the inputs (number of states)
+    int nrstari_finale=0;
+    int nr_simb = 0; //(number of symbols)
+   // char alphabet[20];
+    //alphabet (string containing all symbols)
+    int t[1001][1001]; //transition table m x n array
+   // int m = 0;
+    //n = 0;
+   // int start = 0;
+    //start state
+    int stari_finale[100]; //vector of accepting states 0 = reject, 1 = accept
+    int matrice[100][100];
+    int x = 0;
+    for (x = 0; x < 100; x++) stari_finale[i]=0;
+    for (x = 0; x < 100; x++)
+        for (j = 0; j < 100; j++) {
+            matrice[x][j] = -1;
+            t[x][j] = 0;
+        }
+    f>>stari;f>>nrstari_finale;f>>nr_simb;
+    cout<<stari<<" "<<nrstari_finale<<" "<<nr_simb;
+    for (i= 0; i< nrstari_finale; i++)
+    {
+        f>>x;
+        stari_finale[x]=1;
+    }
+    for (i= 0; i< stari; i++)
+        cout<<stari_finale[i];
+    while (f.eof()==0) {
+        int st1,st2,c;
+        char y;
+        f>>st1>>y>>st2;
+        c=(int)y-97;
+        cout<<"\n"<<c;
+        t[st1][c]=st2;
+        
+    }
+    for (i = 0; i < (stari); i++) {
+       for (j = 0; j < (nr_simb); j++)
+           cout<<t[i][j]<<" ";
+        cout<<endl;
+     }
+    int ok=1,ok1=0,ok2=0;
+    int k;
+    for (i = 1; i < stari; i++)
+        for (j = 0; j < stari-1; j++)
+            if (i > j)matrice[i][j]=0;
+    do{
+        ok2=ok1;
+        ok1=0;
+        ok=1;cout<<"\nam intrat";
+        for (i = 1; i < stari; i++) {
+            for (j = 0; j < stari-1; j++) {
+                if (i > j) {
+                    if (stari_finale[i] != stari_finale[j])
+                        {matrice[i][j] = 1;ok=0;}
+                    else
+                        for(k=0;k<nr_simb;k++){
+                            if (matrice[(t[j][k])][(t[i][k])] == 1 || matrice[(t[j][k])][(t[i][k])]== 1 || matrice[(t[i][k])][(t[j][k])]==1|| matrice[(t[i][k])][(t[j][k])]== 1)
+                            {matrice[i][j] = 1;ok=0;}
+                        }
+                    if(ok) {ok1++;
+                        cout<<"\n"<<i<<' '<<j;}
+                }
+            }
+            
+        }
+    }while(ok1!=ok2);
+    
+    cout<<endl;
+    int stari_noi=0;int nr_stari_finale_noi;int stari_finale_noi[100];int t_noi[100][100];
+    nr_stari_finale_noi=nrstari_finale;
+    /*for (i = 0; i < stari; i++) {
+        for (j = 0; j < stari ; j++)
+            cout<<matrice[i][j]<<" ";
+        cout<<endl;}*/
+    int nr=0;int l;
+    for (i = 0; i < (stari); i++) {
+        for (j = 0; j < (nr_simb); j++)
+            t_noi[i][j]=t[i][j];
+        //cout<<endl;
+    }
+    for (i = 0; i < (stari); i++)
+            if(stari_finale[i]) stari_finale_noi[i]=1;
+    //for (i = 0; i < (stari); i++) cout<<stari_finale_noi[i];
+    for (i = 0; i < stari; i++) {
+        for (j = 0; j < stari ; j++) {
+            //if (i > j)
+                if (matrice[i][j] == 0)
+                {   cout<<"unim "<< i <<" "<< j;
+                    nr++;
+                    for (k = 0; k <stari; k++)
+                        for (l = 0; l < nr_simb; l++)
+                            if(t[k][l]==i) t_noi[k][l]=j;
+                    for (l = j; l < stari; l++){
+                          if(l==i) for(x=l;x<stari;x++) stari_finale_noi[x]=stari_finale_noi[x+1];
+                        for (k = 0; k <nr_simb; k++){
+                            if(l==i)
+                                for(x=l;x<stari;x++) t_noi[x][k]=t_noi[x+1][k];
+                            t_noi[l][k]--;
+                        }
+                    }
+            }
+        }
+    }
+
+    stari_noi=stari-nr;
+    cout<<endl<<stari_noi<<" "<<nrstari_finale<<" "<<nr_simb;
+    cout<<endl;
+    for (i = 0; i <stari_noi; i++) if(stari_finale_noi[i])cout<<i<<" ";
+    cout<<endl;
+    for (i = 0; i <stari_noi; i++) {
+        for (j = 0; j < (nr_simb); j++)
+                cout<<i<<" "<<(char)(j+97)<<" "<<t_noi[i][j]<<endl;
+    }
+    return 0;
+}
