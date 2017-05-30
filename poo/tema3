@@ -1,0 +1,214 @@
+//
+//  main.cpp
+//  tabinet
+//
+//  Created by Ghiuta Ana on 29.05.2017.
+//  Copyright © 2017 Ghiuta Ana. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
+using namespace std;
+//class carte;
+//vector<carte*> pachet;
+class carte{
+    int val;
+    string tip;
+    int scor;
+public:
+    carte(){}
+    carte(int v,string t){
+        val=v;
+        tip=t;
+    }
+    friend ostream& operator<<(ostream& ost,carte *t){
+        ost<<t->val<<" "<<t->tip<<" ";
+        return ost;
+    }
+    friend istream& operator>>(istream& is,carte &t){
+        is>>t.val>>t.tip;
+        return is;
+    }
+    /*carte& operator =(carte *&p){
+        if(this!=p){
+            val=p->val;
+            tip=p->tip;
+        }
+        return *this;
+    }
+    */
+    int get_value(){
+        return val;
+    }
+    void del(){
+        val=0;
+        tip=" ";
+    }
+    string get_tip(){return tip;}
+};
+
+class jucator{
+    string nume;
+    vector<carte*> carti_jucator;
+    int punctaj;
+public:
+    
+    jucator(string nu,vector<carte*> cart_jucator,int x=0){
+        nume=nu;
+        carti_jucator=cart_jucator;
+        punctaj=0;
+    }
+    jucator(jucator *p,vector<carte*> cart_jucator){
+        this->nume=p->nume;
+        this->carti_jucator=cart_jucator;
+        this->punctaj=p->punctaj;
+    }
+    friend ostream& operator<<(ostream& os,jucator *o){
+        os<<o->nume<<" are cartile: ";
+        for(int i=0;i<6;i++){
+            os<<o->carti_jucator[i]<<" ";}
+        
+        return os;}
+    vector<carte*> get_carti(){
+        return carti_jucator;
+    }
+    string get_nume(){
+        return nume;
+    }
+    void set_punctaj(int i){
+        punctaj =punctaj+i;
+    }
+    int get_punctaj(){
+        return punctaj;
+    }
+    void set_carti(vector<carte*> cart_jucator){
+        carti_jucator=cart_jucator;
+    }
+};
+int main() {
+    srand(time(NULL));
+    int r;
+    int folosite[52];
+    vector<carte*> pachet;
+    vector<carte*> masa;
+    vector<jucator*> jucatori;
+    int n;
+    for(int i=2;i<=14;i++){
+        carte *x=new carte(i,"heart");
+        pachet.push_back(x);
+        carte *y=new carte(i,"spare");
+        pachet.push_back(y);
+        carte *z=new carte(i,"diamond");
+        pachet.push_back(z);
+        carte *t=new carte(i,"club");
+        pachet.push_back(t);
+    }
+    
+    cout<<"cati jucatori? n= ";cin>>n;
+    cout<<endl;
+    for(int i=0;i<pachet.size();i++) folosite[i]=0;
+    for(int i=0;i<n;i++){
+        string nu; vector <carte*> cart_jucator;
+        cout<<"nume: ";cin>>nu;
+        for(int i=0;i<6;i++) {
+            //srand(time(NULL));
+            r=rand()%52;
+            if(folosite[r]==0){
+                folosite[r]=1;
+                cart_jucator.push_back(pachet[r]);
+            }
+            else i--;
+        }
+        jucator *j=new jucator(nu,cart_jucator);
+        jucatori.push_back(j);
+    }
+    
+    //for(int i=0;i<pachet.size();i++) folosite[i]=0;
+    for(int i=0;i<4;i++) {
+        //srand(time(NULL));
+        r=rand()%52;
+        if(folosite[r]==0) {folosite[r]=1;masa.push_back(pachet[r]);}
+        else i--;
+    }
+    
+    //cout<<endl;
+   // for(int i=0;i<masa.size();i++)
+    //    cout<<masa[i];
+    cout<<endl;
+    int i,j,k;
+    //for(int i=0;i<pachet.size();i++) cout<<folosite[i];
+    int contor=0;
+    do{
+        vector<carte*> carti_luate;
+        for(i=0;i<n;i++){
+            int s=0;
+            cout<<endl;
+            for(int i=0;i<n;i++)
+            {
+                int ok=0;
+                for(int k=0;k<jucatori[i]->get_carti().size();k++)
+                    if(jucatori[i]->get_carti()[k]->get_value()==0) ok++;
+                   // else {cout<<jucatori[i]<<endl;i++;}
+                if(ok<6) cout<<jucatori[i]<<endl;
+                if(ok==6) {
+                    vector <carte*> cart_jucator;
+                    for(int i=0;i<6;i++) {
+                        //srand(time(NULL));
+                        r=rand()%52;
+                        if(folosite[r]==0){
+                            folosite[r]=1;
+                            cart_jucator.push_back(pachet[r]);
+                        }
+                        else i--;
+                    }
+                    jucatori[i]->set_carti(cart_jucator);
+                }
+            }
+            cout<<"\n\t\t-----MASA-----";
+            for(int i=0;i<masa.size();i++)
+                if(masa[i]->get_value()!=0)cout<<masa[i];
+            carte *c=new carte();//int s=0;
+            cout<<"\nCe carte da jucatorul "<<jucatori[i]->get_nume()<< " jos?"<<endl;cin>>*c;
+            if(c->get_value()>=10) s++;
+            for(int k=0;k<jucatori[i]->get_carti().size();k++)
+                if((jucatori[i]->get_carti()[k]->get_value()==c->get_value())&&(jucatori[i]->get_carti()[k]->get_tip()==c->get_tip()))
+                    jucatori[i]->get_carti()[k]->del();
+            cout<<"\nCate carti ia?";int nr;cin>>nr;
+            if(nr==0 && c->get_value()>=10) s--;
+            for(int l=0;l<nr;l++){
+                cout<<"\nCe carte ia jucatorul "<<jucatori[i]->get_nume()<< " de jos?"<<endl;
+                carte *c2= new carte();
+                cin>>*c2;
+                for(int k=0;k<masa.size();k++)
+                    if((masa[k]->get_value()==c2->get_value())&&(masa[k]->get_tip()==c2->get_tip())){
+                        //cout<<"sterg";
+                        masa[k]->del();}
+                    if(c2->get_value()>=10)
+                      s++;
+                for(int k=0;k<jucatori[i]->get_carti().size();k++)
+                    if((jucatori[i]->get_carti()[k]->get_value()==c2->get_value())&&(jucatori[i]->get_carti()[k]->get_tip()==c2->get_tip()))
+                        jucatori[i]->get_carti()[i]->del();
+            }
+           // cout<<"size:"<<carti_luate.size();
+            //if(s==c.get_value())
+                //cout<<"\nOK";
+                contor=contor+1+nr;
+           // else return;
+               /* for(int l=0;l<carti_luate.size();l++)
+                    for(int k=0;k<masa.size();k++)
+                        if((masa[k]->get_value()==carti_luate[i]->get_value())&&(masa[k]->get_tip()==carti_luate[i]->get_tip())){
+                            cout<<"sterg";
+                            masa[k]->del();}
+                    }
+            else if(s!=c.get_value()&&nr!=0) {cout<<"\nMai incearca!";i--;}*/
+            if(nr==0) {masa.push_back(c);}
+            jucatori[i]->set_punctaj(s);
+            cout<<"punctaj: "<<jucatori[i]->get_punctaj();
+        }
+    }while(contor<52);
+    return 0;
+}
