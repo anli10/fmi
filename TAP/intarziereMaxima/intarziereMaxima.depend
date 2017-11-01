@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1509401083 source:/home/ana/Desktop/teme/fmi/TAP/intarziereMaxima/main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<algorithm>
+
