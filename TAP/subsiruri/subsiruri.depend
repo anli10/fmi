@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1509655949 source:/home/ana/Desktop/teme/fmi/TAP/subsiruri/main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+
