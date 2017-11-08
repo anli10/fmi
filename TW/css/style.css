@@ -1,0 +1,80 @@
+header
+{
+  background-color:#CC231E;
+
+}
+body{
+	background-color: #fcf3cf; 
+}
+.logo{
+	height: 100px;
+	width: auto;
+}
+footer
+{
+  background-color:#0F8A5F;
+  height:50px;
+}
+#zapada{
+    /*background: none;
+    font-family: Androgyne;*/
+    background-image: url('zapada1.png'), url('zapada2.png'), url('zapada3.png');
+    height: 100px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index:1;
+    
+    -webkit-animation: zapada 10s linear infinite;
+    -moz-animation: zapada 10s linear infinite;
+    -ms-animation: zapada 10s linear infinite;
+    animation: zapada 10s linear infinite;
+}
+@keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-moz-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+@-webkit-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-ms-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}   
+
+.retetaAzi h1
+
+{
+    font-family: "Oswald", sans-serif;
+
+}
+.turtaDulce h2
+
+{
+    font-family: "Droif-Serif", serif;
+    font-weight: 400;
+}
+.ingrediente h3
+{
+  font-family: "Oswald", sans-serif;
+
+}
+.preparare h3
+{
+  font-family: "Oswald", sans-serif;
+
+}
+.imaginiRetete img{
+	width: 100px;
+	height: auto;
+}
