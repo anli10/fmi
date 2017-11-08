@@ -10,6 +10,11 @@ body{
 	height: 100px;
 	width: auto;
 }
+.logo img{
+	height: 80%;
+	width: auto;
+	max-width: 100%;
+}
 footer
 {
   background-color:#0F8A5F;
@@ -171,6 +176,7 @@ iframe{
 video{
 	display: block;
 margin: 0 auto;
+width: 100%;
 }
 div.sticky {
   position: -webkit-sticky;
@@ -182,4 +188,81 @@ div.sticky {
 }
 .prezentare{
 	border-top:70px solid transparent; 
+}
+div.gallery {
+    border: 1px solid #ccc;
+    border-bottom-right-radius: 2em;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+    opacity: 0.5;
+}
+div.desc:hover {
+    padding: 15px;
+    text-align: center;
+    opacity: 1.0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 25%;
+}
+
+@media only screen and (max-width: 700px){
+    .responsive {
+        width: 50%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .responsive {
+        width: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#echipa {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#echipa td, #echipa th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#echipa tr:nth-child(even){background-color: #b76f6f;}
+
+#echipa  tr:hover {background-color: #ddd;}
+
+#echipa  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #5e0a0a;
+    color: white;
 }
