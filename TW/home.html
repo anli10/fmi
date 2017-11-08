@@ -4,8 +4,11 @@
 
 <head>
   <meta charset="UTF-8">
+   <meta name="keywords" content="Retete,Carte,Craciun">
+  <meta name="author" content="Beatrice">
   <title>Carte de bucate</title>
   <link rel="stylesheet" href="css/style.css"/>
+   
   
 </head>
 
@@ -18,11 +21,13 @@
   </header>
   
   <nav class="meniu">
-    <div class="navbar" >
+    
 	<ul class="listaMeniu">
-		  <li><a href="retete.html">Retete</a></li>
-		  <li><a href="about.html">Despre mine</a></li>	 
-    </div> 
+		
+		<li><a class="active" href="home.html">Home</a></li>
+		<li><a href="retete.html">Retete</a></li>
+		<li><a href="about.html">Despre mine</a></li>	 
+    </ul>
   </nav>
 
 <section class="retetaAzi">
@@ -31,24 +36,30 @@
 
 <section class="TurtaDulce">
 <h2>TurtaDulce</h2>
-<img class="imaginiRetete" src="imagini/turtaDulce.jpg">
+
 </section>
 
 <section class="ingrediente">
+<div><img class="imaginiRetete" src="imagini/turtaDulce.jpg">
+</div>
 
-<h3>Ingrediente:</h3>
-<ul>
-<li>320 g faina</li>
-<li>100 g unt</li>
-<li>200 g miere</li>
-<li>1 ou</li>
-<li>1 lingurita rasa de bicarbonat</li>
-<li>un praf de sare</li>
-<li>2 linguri rase condiment pentru turta dulce (scortisoara, cardamom, cuisoare)</li>
-<li>1 zahar vanilat</li>
-</ul>
+<div>
+	<h3>Ingrediente:</h3>
+	<ul>
+	<li>320 g faina</li>
+	<li>100 g unt</li>
+	<li>200 g miere</li>
+		<li>1 ou</li>
+	<li>1 lingurita rasa de bicarbonat</li>
+	<li>un praf de sare</li>
+	<li>2 linguri rase condiment pentru turta dulce (scortisoara, cardamom, cuisoare)</li>
+	<li>1 zahar vanilat</li>
+	</ul>
+</div>
+
+
 </section>
-
+<div class="sticky">Clip video mai jos!</div>
 <section class="preparare">
 <h3>Mod de preparare</h3>
 <ol>
@@ -88,8 +99,12 @@
 	<li>Pofta buna!</li>
 
 </ol>
+ <video width="640" height="480" controls>
+  <source src="imagini/turtaDulce.mp4" type="video/mp4">
+</video> 
 <footer class="footer">
 	<p>By Beatrice</p>
+
 </footer>
 </body>
 
