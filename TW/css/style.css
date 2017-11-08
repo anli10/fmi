@@ -1,0 +1,185 @@
+header
+{
+  background-color:#CC231E;
+
+}
+body{
+	background-color: #fcf3cf; 
+}
+.logo{
+	height: 100px;
+	width: auto;
+}
+footer
+{
+  background-color:#0F8A5F;
+  height:50px;
+}
+#zapada{
+    /*background: none;
+    font-family: Androgyne;*/
+    background-image: url('zapada1.png'), url('zapada2.png'), url('zapada3.png');
+    height: 100px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index:1;
+    
+    -webkit-animation: zapada 10s linear infinite;
+    -moz-animation: zapada 10s linear infinite;
+    -ms-animation: zapada 10s linear infinite;
+    animation: zapada 10s linear infinite;
+}
+@keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-moz-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+@-webkit-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-ms-keyframes  zapada {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}   
+
+.retetaAzi h1
+
+{
+	border-top: 50px solid transparent;
+	position: relative;
+    font-family: "Oswald", sans-serif;
+    clear: both;
+
+}
+.turtaDulce h2
+
+{
+    font-family: "Droif-Serif", serif;
+    font-weight: 400;
+}
+.ingrediente h3
+{
+  font-family: "Oswald", sans-serif;
+}
+.preparare h3
+{
+  font-family: "Oswald", sans-serif;
+
+}
+.ingrediente .imaginiRetete{
+	width: 550px;
+	height: auto;
+	position: static;
+	border: 20px solid transparent;
+}
+.ingrediente 
+{
+	display: flex;
+}
+.meniu  ul
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #176100;
+	position: absolute;
+    top: 108;
+    width: 100%;
+}
+.meniu .listaMeniu li a
+{
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+.meniu .listaMeniu li{
+	float: left;
+}
+.meniu .listaMeniu li a:hover{
+	background-color: #001e00; 
+}
+.meniu .listaMeniu li a.active{
+	background-color: #4CAF50;
+    color: white;
+}
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.tip h3{
+	border-top: 50px solid transparent;
+	position: relative;
+    font-family: "Oswald", sans-serif;
+    clear: both;
+}
+aside {
+	margin-top: -300px;
+	margin-right: 300px;   
+	float: right;  
+}
+iframe{
+	width: 150%;
+	height: 1000px;
+}
+video{
+	display: block;
+margin: 0 auto;
+}
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 5px;
+  background-color: #CC231E;
+  width:  44%;
+}
+.prezentare{
+	border-top:70px solid transparent; 
+}
