@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1510262965 source:/home/ana/Desktop/teme/fmi/GC/lab2/main.cpp
+	<iostream>
+	<math.h>
+	<stdlib.h>
+

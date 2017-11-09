@@ -76,10 +76,10 @@ int main(int argc, char **argv)
                 return errno;
          }
 
-	pid_t pid_rege;
-	if ((pid_rege = fork()) < 0)
+	pid_t pid_parinte;
+	if ((pid_parinte = fork()) < 0)
 		{ perror("fork"); }
-	else if (pid_rege == 0)
+	else if (pid_parinte == 0)
 		{ forker(argc,numar_procese, argv);}
 	else
 		{

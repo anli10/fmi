@@ -60,7 +60,8 @@ footer
 .retetaAzi h1
 
 {
-	border-top: 50px solid transparent;
+	margin-top: 6%;
+	/*border-top: 50px solid transparent;*/
 	position: relative;
     font-family: "Oswald", sans-serif;
     clear: both;
@@ -165,13 +166,13 @@ footer
     clear: both;
 }
 aside {
-	margin-top: -300px;
-	margin-right: 300px;   
+	margin-top: -20%;
+	margin-right: 20%;   
 	float: right;  
 }
 iframe{
 	width: 150%;
-	height: 1000px;
+	height: 70vh;
 }
 video{
 	display: block;
