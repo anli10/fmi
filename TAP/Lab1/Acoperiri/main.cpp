@@ -34,12 +34,15 @@ int main()
     }
     int i=1;
 
+
     for(int i=1;(i<n)&& solutie[solutie.size()-1].second<b;i++){
 
-        if(interval[i].first<=var && interval[i].second>solutie[solutie.size()-1].second   && interval[i+1].second<interval[i].second){
-            solutie.push_back(interval[i]);
-            var=interval[i].second;
+        if(interval[i].first<=var && interval[i].second>solutie[solutie.size()-1].second){//  && interval[i+1].second<interval[i].second){
+            while(interval[i+1].second<interval[i].second) i++;
+                solutie.push_back(interval[i]);
+                var=interval[i].second;
         }
+
 
     }
 
@@ -47,6 +50,7 @@ int main()
     if((solutie.size()==1 && solutie[solutie.size()-1].second<b)||((solutie.size()==0))) cout<<"-1";
     else {
         for(int i=0;i<solutie.size();i++){
+        if(solutie[i].first !=0)
         cout<<solutie[i].first<<" "<<solutie[i].second<<endl;
         }
     }

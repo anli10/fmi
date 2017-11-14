@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1510672653 source:/home/ana/Desktop/teme/fmi/TAP/Lab2/Arbori/main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<stdio.h>
+	<stdlib.h>
+	<algorithm>
+
